@@ -10,19 +10,24 @@ const ChatGPTClone = () => {
   const fetchResponse = async (userMessage) => {
     try {
       // Adjust the API endpoint and payload to match your Flask backend
-      const response = await fetch('http://localhost:5000/chat', {
+      const response = await fetch('http://127.0.0.1:5000/api/chat', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          message: userMessage,
-          outputType: outputType,
+          medium: outputType,
+          prompt: userMessage,
         }),
       });
 
       const data = await response.json();
-      return data.response; // Assuming the response from Flask is in { "response": "some text" }
+
+      console.log("text resopnse: ", data.text_response);
+      console.log("file url: ", data.file_url)
+
+      return { textResponse: data.text_response, fileUrl: data.file_url };
+
     } catch (error) {
       console.error('Error fetching response from API:', error);
       return 'Sorry, there was an error with the server.';
@@ -40,12 +45,12 @@ const ChatGPTClone = () => {
     ]);
 
     // Fetch the bot's response from the API
-    const botResponse = await fetchResponse(input);
+    const { textResponse, fileUrl } = await fetchResponse(input);
 
     // Add the bot's response to the chat
     setMessages((prev) => [
       ...prev,
-      { sender: 'bot', text: botResponse },
+      { sender: 'bot', text: textResponse, fileUrl: fileUrl },
     ]);
 
     setInput('');
@@ -75,11 +80,11 @@ const ChatGPTClone = () => {
         {/* Sidebar */}
         <div className="w-64 bg-blue-600 text-white flex flex-col items-center p-4">
             <h1 className="text-2xl font-bold mb-6">Your LeTherapist</h1>
-            <nav className="space-y-4">
+          <nav className="space-y-4">
                 <a href="#" className="block text-lg hover:text-blue-400">Option 1</a>
                 <a href="#" className="block text-lg hover:text-blue-400">Option 2</a>
                 <a href="#" className="block text-lg hover:text-blue-400">Option 3</a>
-            </nav>
+          </nav>
         
         </div>
 
@@ -113,6 +118,14 @@ const ChatGPTClone = () => {
                   } px-4 py-2 rounded-lg max-w-2xl`}
                 >
                   {message.text}
+                  {message.fileUrl && outputType === 'audio' && (
+                    <div className="mt-4"> {/* Adds margin at the top */}
+                      <audio controls className="w-full"> {/* Optionally you can use w-full for full width */}
+                        <source src={message.fileUrl} type="audio/mp3" />
+                        Your browser does not support the audio element.
+                      </audio>
+                    </div>
+                  )}
                 </div>
               </div>
             ))}
