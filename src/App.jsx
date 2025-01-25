@@ -1,7 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 
 const ChatGPTClone = () => {
-  const [messages, setMessages] = useState([]); // Start with an empty messages state
+  const [messages, setMessages] = useState([
+    { sender: 'bot', 
+      text: 'Hello! How can I assist you today?',
+      image: "/docs/assets/Lebron.png", // le Pookie
+      timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }), 
+    },
+  ]);
   const [input, setInput] = useState('');
   const [outputType, setOutputType] = useState('text'); // State to store the selected output type
   const messagesEndRef = useRef(null);
@@ -37,15 +43,11 @@ const ChatGPTClone = () => {
     setMessages((prev) => [
       ...prev,
       { sender: 'user', text: input },
-    ]);
-
-    // Fetch the bot's response from the API
-    const botResponse = await fetchResponse(input);
-
-    // Add the bot's response to the chat
-    setMessages((prev) => [
-      ...prev,
-      { sender: 'bot', text: botResponse },
+      { sender: 'bot', 
+        text: 'Hello! How can I assist you today?', //We should fix this
+        image: "/docs/assets/Lebron.png", // le Pookie
+        timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }), 
+      },
     ]);
 
     setInput('');
@@ -59,7 +61,11 @@ const ChatGPTClone = () => {
   useEffect(() => {
     // Initial welcome message from LeBron
     setMessages([
-      { sender: 'bot', text: 'Hello! I\'m Dr. LeBonbon. How can I assist you today?' },
+      { sender: 'bot', 
+        text: 'Hello! I\'m Dr. LeBonbon. How can I assist you today?',
+        image: "/docs/assets/Lebron.png", // le Pookie
+        timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }), 
+      },
     ]);
 
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
