@@ -1,26 +1,58 @@
 import React, { useState, useEffect, useRef } from 'react';
 
 const ChatGPTClone = () => {
-  const [messages, setMessages] = useState([
-    { sender: 'bot', text: 'Hello! How can I assist you today?' },
-  ]);
+  const [messages, setMessages] = useState([]); // Start with an empty messages state
   const [input, setInput] = useState('');
   const [outputType, setOutputType] = useState('text'); // State to store the selected output type
   const messagesEndRef = useRef(null);
 
-  const handleSendMessage = () => {
+  // Function to fetch a response from the Flask API
+  const fetchResponse = async (userMessage) => {
+    try {
+      // Adjust the API endpoint and payload to match your Flask backend
+      const response = await fetch('http://localhost:5000/chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          message: userMessage,
+          outputType: outputType,
+        }),
+      });
+
+      const data = await response.json();
+      return data.response; // Assuming the response from Flask is in { "response": "some text" }
+    } catch (error) {
+      console.error('Error fetching response from API:', error);
+      return 'Sorry, there was an error with the server.';
+    }
+  };
+
+  // Function to handle sending a message
+  const handleSendMessage = async () => {
     if (input.trim() === '') return;
 
+    // Add the user's message to the chat
     setMessages((prev) => [
       ...prev,
       { sender: 'user', text: input },
-      { sender: 'bot', text: `This is a ${outputType} response from the bot!` },
+    ]);
+
+    // Fetch the bot's response from the API
+    const botResponse = await fetchResponse(input);
+
+    // Add the bot's response to the chat
+    setMessages((prev) => [
+      ...prev,
+      { sender: 'bot', text: botResponse },
     ]);
 
     setInput('');
   };
 
   useEffect(() => {
+    // Scroll to the bottom of the chat when a new message is added
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
@@ -51,7 +83,7 @@ const ChatGPTClone = () => {
         {/* Main Chat Area */}
         <div className="flex-1 flex flex-col bg-gray-100">
           {/* Chat Messages */}
-          <div className="flex-1 overflow-y-auto p-6 space-y-4">
+          <div className="flex-1 overflow-y-auto p-6 space-y-4 pt-10">
             {messages.map((message, index) => (
               <div
                 key={index}
@@ -61,9 +93,7 @@ const ChatGPTClone = () => {
               >
                 <div
                   className={`${
-                    message.sender === 'user'
-                      ? 'bg-blue-500 text-white'
-                      : 'bg-gray-300 text-black'
+                    message.sender === 'user' ? 'bg-blue-500 text-white' : 'bg-gray-300 text-black'
                   } px-4 py-2 rounded-lg max-w-2xl`}
                 >
                   {message.text}
@@ -80,31 +110,19 @@ const ChatGPTClone = () => {
             </label>
             <div className="flex space-x-4 mb-2">
               <button
-                className={`px-4 py-2 rounded-lg ${
-                  outputType === 'text'
-                    ? 'bg-blue-500 text-white'
-                    : 'bg-gray-300 text-gray-700'
-                }`}
+                className={`px-4 py-2 rounded-lg ${outputType === 'text' ? 'bg-blue-500 text-white' : 'bg-gray-300 text-gray-700'}`}
                 onClick={() => setOutputType('text')}
               >
                 Text
               </button>
               <button
-                className={`px-4 py-2 rounded-lg ${
-                  outputType === 'audio'
-                    ? 'bg-blue-500 text-white'
-                    : 'bg-gray-300 text-gray-700'
-                }`}
+                className={`px-4 py-2 rounded-lg ${outputType === 'audio' ? 'bg-blue-500 text-white' : 'bg-gray-300 text-gray-700'}`}
                 onClick={() => setOutputType('audio')}
               >
                 Audio
               </button>
               <button
-                className={`px-4 py-2 rounded-lg ${
-                  outputType === 'video'
-                    ? 'bg-blue-500 text-white'
-                    : 'bg-gray-300 text-gray-700'
-                }`}
+                className={`px-4 py-2 rounded-lg ${outputType === 'video' ? 'bg-blue-500 text-white' : 'bg-gray-300 text-gray-700'}`}
                 onClick={() => setOutputType('video')}
               >
                 Video
@@ -129,9 +147,9 @@ const ChatGPTClone = () => {
             />
             <button
               onClick={handleSendMessage}
-              className="ml-4 bg-blue-600 text-white px-6 py-3 text-lg rounded-lg hover:bg-blue-700"
+              className="ml-4 bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600"
             >
-              Ask
+              Send
             </button>
           </div>
         </div>
@@ -141,3 +159,12 @@ const ChatGPTClone = () => {
 };
 
 export default ChatGPTClone;
+
+
+
+//you are my sunshine profile picture 
+//Dr. LeBonBon
+//*online
+//background opaque lebron and dwade hard ah pic
+//Loading bar: show meme
+//Lakers color: gold and purple
