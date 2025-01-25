@@ -2,7 +2,11 @@ import React, { useState, useEffect, useRef } from 'react';
 
 const ChatGPTClone = () => {
   const [messages, setMessages] = useState([
-    { sender: 'bot', text: 'Hello! How can I assist you today?' },
+    { sender: 'bot', 
+      text: 'Hello! How can I assist you today?',
+      image: "/docs/assets/Lebron.png", // le Pookie
+      timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }), 
+    },
   ]);
   const [input, setInput] = useState('');
   const [outputType, setOutputType] = useState('text'); // State to store the selected output type
@@ -14,7 +18,11 @@ const ChatGPTClone = () => {
     setMessages((prev) => [
       ...prev,
       { sender: 'user', text: input },
-      { sender: 'bot', text: `This is a ${outputType} response from the bot!` },
+      { sender: 'bot', 
+        text: 'Hello! How can I assist you today?', //We should fix this
+        image: "/docs/assets/Lebron.png", // le Pookie
+        timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }), 
+      },
     ]);
 
     setInput('');
@@ -28,13 +36,13 @@ const ChatGPTClone = () => {
     <div className="min-h-screen flex flex-col">
       {/* Title */}
       <div className="bg-blue-600 text-white py-6 text-center">
-        <h1 className="text-4xl font-bold">Your LeTherapist</h1>
+        <h1 className="text-4xl font-bold">LeBron James, Licensed Therapist</h1>
       </div>
 
       <div className="flex flex-1">
         {/* Sidebar */}
         <div className="w-1/4 bg-gray-800 text-white p-6 flex flex-col">
-          <h2 className="text-2xl font-bold mb-6">Sidebar</h2>
+          <h2 className="text-2xl font-bold mb-6">Options</h2>
           <nav className="space-y-4">
             <a href="#" className="block text-lg hover:text-blue-400">
               Option 1
@@ -50,6 +58,7 @@ const ChatGPTClone = () => {
 
         {/* Main Chat Area */}
         <div className="flex-1 flex flex-col bg-gray-100">
+
           {/* Chat Messages */}
           <div className="flex-1 overflow-y-auto p-6 space-y-4">
             {messages.map((message, index) => (
@@ -59,14 +68,28 @@ const ChatGPTClone = () => {
                   message.sender === 'user' ? 'justify-end' : 'justify-start'
                 }`}
               >
-                <div
-                  className={`${
-                    message.sender === 'user'
-                      ? 'bg-blue-500 text-white'
-                      : 'bg-gray-300 text-black'
-                  } px-4 py-2 rounded-lg max-w-2xl`}
-                >
-                  {message.text}
+                <div className="flex items-start gap-3">
+                  {/* Show image only for bot messages */}
+                  {message.sender === 'bot' && message.image && (
+                    <img
+                      className="w-8 h-8 rounded-full"
+                      src={message.image}
+                      alt={`${message.sender} avatar`}
+                    />
+                  )}
+                  <div
+                    className={`${
+                      message.sender === 'user'
+                        ? 'bg-blue-500 text-white'
+                        : 'bg-gray-300 text-black'
+                    } px-4 py-2 rounded-lg max-w-2xl`}
+                  >
+                    <p>{message.text}</p>
+                    {/* Display timestamp for all messages */}
+                    <span className="text-xs text-gray-500 block mt-1">
+                      {message.timestamp}
+                    </span>
+                  </div>
                 </div>
               </div>
             ))}
@@ -113,7 +136,7 @@ const ChatGPTClone = () => {
 
             {/* Disclaimer */}
             <p className="text-sm text-gray-500">
-              * Note: LeBron takes a second for audio and video.
+              * Note: Even LeBron needs time to think for audio and video.
             </p>
           </div>
 
