@@ -74,9 +74,16 @@ const ChatGPTClone = () => {
   return (
     <div className="min-h-screen flex flex-col">
       {/* Title */}
-      <div className="bg-blue-600 text-white py-6 text-center">
-        <h1 className="text-4xl font-bold">LeBron James, Licensed Therapist</h1>
-      </div>
+      <div className="text-white py-6 text-center"
+      style={{
+        backgroundImage: 'url(/docs/assets/LEBRONANDWADE.jpg)', 
+        backgroundSize: 'cover',
+        backgroundPosition: 'center 500px', // Shift the image down by 50px
+        height: '130px' // You can adjust this height to suit your design
+      }}
+    >
+      <h1 className="text-4xl font-bold">LeBron James, Licensed Therapist</h1>
+    </div>
 
       <div className="flex flex-1">
       
