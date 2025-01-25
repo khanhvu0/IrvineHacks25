@@ -71,18 +71,21 @@ const ChatGPTClone = () => {
         </nav>
       </div>
 
-      <div className="flex-1 flex flex-col relative ml-64">
-        <div className="relative ml-7 mt-7 bg-white p-2 rounded-lg shadow-md flex items-center space-x-3 w-40">
-          <img
-            src="https://example.com/lebron-image.jpg"
-            alt="LeBron James"
-            className="w-10 h-10 rounded-full"
-          />
-          <div>
-            <h2 className="text-sm font-semibold">Dr. LeBonbon</h2>
-            <span className="text-xs text-green-500">Online</span>
-          </div>
+    {/* Main Chat Area */}
+    <div className="flex-1 flex flex-col relative ml-64"> {/* Added ml-64 to avoid overlap */}
+      
+      {/* LeBron Profile (top left inside chat area) */}
+      <div className="relative ml-7 mt-7 bg-white p-2 rounded-lg shadow-md flex items-center space-x-3 w-40">
+        <img
+          src="/docs/assets/Lebron-James.png" // Replace with LeBron's image URL
+          alt="LeBron James"
+          className="w-10 h-10 rounded-full"
+        />
+        <div>
+          <h2 className="text-sm font-semibold">Dr. LeBonbon</h2>
+          <span className="text-xs text-green-500">Online</span>
         </div>
+      </div>
 
         <div className="flex-1 overflow-y-auto p-7 space-y-4 pt-8">
           {messages.map((message, index) => (
