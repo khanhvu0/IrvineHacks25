@@ -61,7 +61,11 @@ const ChatGPTClone = () => {
   useEffect(() => {
     // Initial welcome message from LeBron
     setMessages([
-      { sender: 'bot', text: 'Hello! I\'m Dr. LeBonbon. How can I assist you today?' },
+      { sender: 'bot', 
+        text: 'Hello! I\'m Dr. LeBonbon. How can I assist you today?',
+        image: "/docs/assets/Lebron.png", // le Pookie
+        timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }), 
+      },
     ]);
 
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
