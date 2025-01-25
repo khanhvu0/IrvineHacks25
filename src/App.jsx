@@ -56,34 +56,50 @@ const ChatGPTClone = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
+  useEffect(() => {
+    // Initial welcome message from LeBron
+    setMessages([
+      { sender: 'bot', text: 'Hello! I\'m Dr. LeBonbon. How can I assist you today?' },
+    ]);
+
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, []); // Empty dependency array ensures this runs only once after component mounts
+
   return (
     <div className="min-h-screen flex flex-col">
-      {/* Title */}
-      <div className="bg-blue-600 text-white py-6 text-center">
-        <h1 className="text-4xl font-bold">Your LeTherapist</h1>
-      </div>
+
+      
 
       <div className="flex flex-1">
+      
         {/* Sidebar */}
-        <div className="w-1/4 bg-gray-800 text-white p-6 flex flex-col">
-          <h2 className="text-2xl font-bold mb-6">Sidebar</h2>
-          <nav className="space-y-4">
-            <a href="#" className="block text-lg hover:text-blue-400">
-              Option 1
-            </a>
-            <a href="#" className="block text-lg hover:text-blue-400">
-              Option 2
-            </a>
-            <a href="#" className="block text-lg hover:text-blue-400">
-              Option 3
-            </a>
-          </nav>
+        <div className="w-64 bg-blue-600 text-white flex flex-col items-center p-4">
+            <h1 className="text-2xl font-bold mb-6">Your LeTherapist</h1>
+            <nav className="space-y-4">
+                <a href="#" className="block text-lg hover:text-blue-400">Option 1</a>
+                <a href="#" className="block text-lg hover:text-blue-400">Option 2</a>
+                <a href="#" className="block text-lg hover:text-blue-400">Option 3</a>
+            </nav>
+        
         </div>
 
         {/* Main Chat Area */}
         <div className="flex-1 flex flex-col bg-gray-100">
+          {/* LeBron Profile (top left inside chat area) */}
+          <div className="absolute top-30 m-3 left-50 bg-white p-2 rounded-lg shadow-md flex items-center space-x-3">
+            <img
+              src="https://example.com/lebron-image.jpg" // Replace with LeBron's image URL
+              alt="LeBron James"
+              className="w-12 h-12 rounded-full"
+            />
+            <div>
+              <h2 className="text-sm font-semibold">Dr. LeBonbon</h2>
+              <span className="text-xs text-green-500">Online</span>
+            </div>
+          </div>
+
           {/* Chat Messages */}
-          <div className="flex-1 overflow-y-auto p-6 space-y-4 pt-10">
+          <div className="flex-1 overflow-y-auto p-6 space-y-4 pt-16">
             {messages.map((message, index) => (
               <div
                 key={index}
@@ -161,10 +177,10 @@ const ChatGPTClone = () => {
 export default ChatGPTClone;
 
 
-
 //you are my sunshine profile picture 
 //Dr. LeBonBon
 //*online
 //background opaque lebron and dwade hard ah pic
 //Loading bar: show meme
 //Lakers color: gold and purple
+//only send one message per response
