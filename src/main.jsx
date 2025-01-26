@@ -2,9 +2,13 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import ChatGPTClone from './App'; // Adjust the path if needed
 import './index.css'; // Ensure the CSS file is included
+import { BrowserRouter as Router } from 'react-router-dom';
+import App from './App';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <ChatGPTClone />
+    <Router>
+      <App />
+    </Router>
   </React.StrictMode>
 );
