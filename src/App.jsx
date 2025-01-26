@@ -8,6 +8,7 @@ const ChatGPTClone = () => {
   const [outputType, setOutputType] = useState('text');
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef(null);
+  const [currentImage, setCurrentImage] = useState('');
 
   const fetchResponse = async (userMessage) => {
     try {
@@ -24,6 +25,23 @@ const ChatGPTClone = () => {
     }
   };
 
+  const images = [
+    '/lebronAHHHH.jpg',
+    '/lebronJRSmith.jpg',
+    '/lebronSmiling.jpg',
+    '/lebronTacoTuesday.jpg',
+    'lebron_bugs.png',
+    'bronbronnyTomJerry.png',
+    'whatsYourFavoriteChapterLebron.png'
+  ];
+
+  const pickRandomImage = () => {
+    const randomIndex = Math.floor(Math.random() * images.length);
+    setCurrentImage(images[randomIndex]);
+  };
+    
+  
+
   const handleSendMessage = async () => {
     if (input.trim() === '') return;
 
@@ -31,6 +49,7 @@ const ChatGPTClone = () => {
     setInput('');
     setIsLoading(true);
 
+    pickRandomImage(); 
     const { textResponse, fileUrl } = await fetchResponse(input);
 
     setMessages((prev) => [
@@ -41,8 +60,16 @@ const ChatGPTClone = () => {
   };
 
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages, isLoading]);
+    const chatContainer = messagesEndRef.current;
+      
+    console.log("IM HERE")
+    chatContainer.scrollTo( 0, chatContainer.scrollHeight, {behavior: "smooth"});
+      
+    
+
+    // Call the function when messages change or when a new message is added
+  }, [messages, currentImage, isLoading]);
+  
 
   useEffect(() => {
     setMessages([
@@ -82,10 +109,11 @@ const ChatGPTClone = () => {
       </div>
 
     {/* Main Chat Area */}
-    <div className="flex-1 flex flex-col relative ml-64"> {/* Added ml-64 to avoid overlap */}
+    <div className="flex-1 flex flex-col relative ml-64" style={{ height:"100vh" }}> {/* Added ml-64 to avoid overlap */}
       
       {/* LeBron Profile (top left inside chat area) */}
-      <div className="relative ml-7 mt-7 bg-white p-2 rounded-lg shadow-md flex items-center space-x-3 w-40">
+   
+      <div className="absolute top-0 z-50 ml-7 mt-7 bg-white p-2 rounded-lg shadow-md flex items-center space-x-3 w-40">
         <img
           src="/docs/assets/Lebron-James.png" // Replace with LeBron's image URL
           alt="LeBron James"
@@ -97,7 +125,7 @@ const ChatGPTClone = () => {
         </div>
       </div>
 
-        <div className="flex-1 overflow-y-auto p-7 space-y-4 pt-8">
+        <div className="flex-1 overflow-y-auto p-7 space-y-4 pt-24 " ref={messagesEndRef}>
           {messages.map((message, index) => (
             <div
               key={index}
@@ -129,17 +157,18 @@ const ChatGPTClone = () => {
                  
                 </div>
                 <img
-                  src="/docs/assets/loading_meme.jpg"
+                  src={currentImage}
                   alt="Loading Meme"
                   className="w-40 mt-2 rounded-lg"
                 /> 
               </div>
             </div>
           )}
-          <div ref={messagesEndRef} />
+          
+          
         </div>
-
-        <div className="bg-white p-4 flex flex-col fixed bottom-0 w-full pr-64 z-10">
+        
+        <div className="bg-white p-4 flex flex-col bottom-0 w-full z-10 ">
           <div className="bg-white ml-2 mb-4 z-20">
             <label className="block mb-2 text-gray-700 font-semibold">Choose Response Type:</label>
             <div className="flex space-x-4 mb-2">
@@ -165,10 +194,10 @@ const ChatGPTClone = () => {
             <p className="text-sm text-gray-500">* Note: LeBron takes a second for audio and video.</p>
           </div>
 
-          <div className="flex items-center space-x-4 pr-4">
+          <div className="flex items-center w-full space-x-4 ">
             <input
               type="text"
-              className="flex-1 border rounded-lg p-3 text-lg focus:outline-none focus:ring-2 focus:ring-blue-300"
+              className="flex-1 w-full border rounded-lg p-3 text-lg focus:outline-none focus:ring-2 focus:ring-blue-300 "
               placeholder="Type your message..."
               value={input}
               onChange={(e) => setInput(e.target.value)}
@@ -188,4 +217,3 @@ const ChatGPTClone = () => {
 };
 
 export default ChatGPTClone;
-
