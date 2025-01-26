@@ -5,7 +5,14 @@ export default {
     "src/**/*.{js,ts,jsx,tsx,html,css}"
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        merriweather: ['Merriweather', 'serif'],
+      },
+      fontFamily: {
+        ibm: ['IBM Plex Sans Condensed', 'sans-serif'],
+      },
+    },
   },
   plugins: [],
 }
