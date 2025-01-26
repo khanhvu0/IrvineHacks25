@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import ChatGPTClone from './App'; // Adjust the path if needed
+import LeTherapyApp from './App'; // Adjust the path if needed
 import './index.css'; // Ensure the CSS file is included
 import { BrowserRouter as Router } from 'react-router-dom';
 import App from './App';
