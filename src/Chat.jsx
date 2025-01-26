@@ -11,18 +11,55 @@ const Chat = () => {
   const messagesEndRef = useRef(null);
   const [currentImage, setCurrentImage] = useState('');
 
+  const pollJobStatus = async (jobId, messageIndex) => {
+    const interval = 5000; // Poll every 5 seconds
+    const poller = setInterval(async () => {
+      try {
+        const response = await fetch(`https://irvinehacks25.onrender.com/api/status/${jobId}`);
+        const data = await response.json();
+
+        if (data.status === "completed") {
+          console.log("Status completed:", data);
+  
+          // Manually update the state
+          setMessages((prevMessages) =>
+            prevMessages.map((message) =>
+              message.jobId === jobId
+                ? {
+                    ...message,
+                    status: "completed",
+                    fileUrl: data.file_url, // Update fileUrl
+                  }
+                : message
+            )
+          );
+        } else {
+          console.log("Status still pending:", data);
+          setTimeout(() => pollJobStatus(jobId), 5000); // Retry after delay
+        }
+
+      } catch (error) {
+        console.error('Error polling job status:', error);
+        clearInterval(poller);
+      }
+    }, interval);
+  };
+
   const fetchResponse = async (userMessage) => {
     try {
-      const response = await fetch('http://127.0.0.1:5000/api/chat', {
+      const response = await fetch('https://irvinehacks25.onrender.com/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ medium: outputType, prompt: userMessage }),
       });
       const data = await response.json();
-      return { textResponse: data.text_response, fileUrl: data.file_url };
+
+      console.log(data);
+
+      return { textResponse: data.text_response, fileUrl: data.file_url, jobId: data.job_id };
     } catch (error) {
       console.error('Error fetching response from API:', error);
-      return { textResponse: 'Sorry, there was an error with the server.', fileUrl: null };
+      return { textResponse: 'Sorry, there was an error with the server.', fileUrl: null, jobId: null };
     }
   };
 
@@ -46,17 +83,31 @@ const Chat = () => {
   const handleSendMessage = async () => {
     if (input.trim() === '') return;
 
-    setMessages((prev) => [...prev, { sender: 'user', text: input }]);
+    setMessages((prev) => [...prev, { sender: 'user', text: input, type: 'text' }]);
     setInput('');
     setIsLoading(true);
-
     pickRandomImage(); 
-    const { textResponse, fileUrl } = await fetchResponse(input);
+    const { textResponse, fileUrl, jobId } = await fetchResponse(input);
 
-    setMessages((prev) => [
-      ...prev,
-      { sender: 'bot', text: textResponse, fileUrl },
-    ]);
+    const newMessage = {
+      sender: 'bot',
+      text: textResponse,
+      fileUrl: fileUrl || null,
+      type: outputType,
+      status: jobId ? 'pending' : 'completed',
+      jobId: jobId || null,
+    };
+
+    setMessages((prev) => [...prev, newMessage]);
+    console.log("Messages before polling:")
+    console.log(messages)
+    console.log("Messages length:", messages.length)
+    if (jobId) {
+      pollJobStatus(jobId, messages.length);
+      console.log("Messages after polling")
+      console.log(messages)
+    }
+
     setIsLoading(false);
   };
 
@@ -78,10 +129,39 @@ const Chat = () => {
         sender: 'bot',
         text: 'Hello! I\'m Dr. LeBonbon. How can I assist you today?',
         image: '/docs/assets/Lebron.png',
-        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        type: 'text',
+        status: 'completed',
       },
     ]);
   }, []);
+
+  const renderMedia = (message) => {
+    if (!message.fileUrl && !(message.type === 'text')) {
+      return <p className="text-sm text-gray-500">Processing {message.type}...</p>;
+    }
+
+    if (message.type === 'audio') {
+      console.log("Messages (audio)");
+      console.log(messages);
+      return (
+        <audio controls className="w-full my-3">
+          <source src={message.fileUrl} type="audio/mp3" />
+          Your browser does not support the audio element.
+        </audio>
+      );
+    }
+
+    if (message.type === 'video') {
+      return (
+        <video controls className="w-full my-3">
+          <source src={message.fileUrl} type="video/mp4" />
+          Your browser does not support the video element.
+        </video>
+      );
+    }
+
+    return null;
+  };
   
   return (
     <div className="min-h-screen flex" style={{
@@ -93,57 +173,44 @@ const Chat = () => {
         <div className="fixed inset-0 bg-white opacity-90 z-0" ></div>
       <div className="w-64 bg-gradient-to-b from-yellow-500 to-purple-700 text-white flex flex-col items-center p-4 fixed h-full top-0 left-0">
 
-        <h1 className="text-2xl font-bold mb-6">Your LeTherapist </h1>
+      <h1 className="text-3xl font-bold m-6">LeTherapy</h1>
         <nav className="space-y-4">
-          <a href="#" className="block text-lg hover:text-yellow-400">Chat History</a>
+          <a href="#" className="block text-m hover:text-yellow-400">Chat History</a>
         </nav>
         <div className="mt-auto">
         <a href="https://www.lebronjames.com/" target="_blank">
             <img
-                src="/lebron_logo.png" // Replace with LeBron's image URL
+                src="/lebron_logo.png"
                 alt="LeBron James"
                 className="w-55 h-20 "
             />
         </a>
         </div>
-        
       </div>
 
     {/* Main Chat Area */}
     <div className="flex-1 flex flex-col relative ml-64" style={{ height:"100vh" }}> {/* Added ml-64 to avoid overlap */}
-      
-      {/* LeBron Profile (top left inside chat area) */}
-   
-      <div className="absolute top-0 z-50 ml-7 mt-7 bg-white p-2 rounded-lg shadow-md flex items-center space-x-3 w-40">
-        <img
-          src="/docs/assets/Lebron-James.png" // Replace with LeBron's image URL
-          alt="LeBron James"
-          className="w-10 h-10 rounded-full"
-        />
-        <div>
-          <h2 className="text-sm font-semibold">Dr. LeBonbon</h2>
-          <span className="text-xs text-green-500">Online</span>
+         
+      <div className="relative mb-5">
+        <div className="absolute top-0 z-50 left-0 ml-7 mt-7 bg-white p-2 rounded-lg shadow-md flex items-center space-x-3 w-40">
+          <img
+            src="/docs/assets/Lebron-James.png" 
+            alt="LeBron James"
+            className="w-10 h-10 rounded-full"
+          />
+          <div>
+            <h2 className="text-sm font-semibold pt-1">Dr. LeBonbon</h2>
+            <span className="text-xs text-green-500">Online</span>
+          </div>
         </div>
       </div>
 
-        <div className="flex-1 overflow-y-auto p-7 space-y-4 pt-24 " ref={messagesEndRef}>
+      <div className="flex-1 overflow-y-auto p-7 space-y-4 pt-24 " ref={messagesEndRef}>
           {messages.map((message, index) => (
-            <div
-              key={index}
-              className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}
-            >
-              <div
-                className={`${message.sender === 'user' ? 'bg-violet-200 text-black' : 'bg-amber-50 text-black'} px-4 py-2 rounded-lg max-w-2xl`}
-              >
-                {message.text}
-                {message.fileUrl && outputType === 'audio' && (
-                  <div className="mt-4">
-                    <audio controls className="w-full">
-                      <source src={message.fileUrl} type="audio/mp3" />
-                      Your browser does not support the audio element.
-                    </audio>
-                  </div>
-                )}
+            <div key={index} className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
+              <div className={`p-4 rounded-lg max-w-xl ${message.sender === 'user' ? 'bg-violet-200 text-black' : 'bg-amber-50 text-black'} px-4 py-2 rounded-lg max-w-2xl`}>
+                <p>{message.text}</p>
+                {message.type !== 'text' && renderMedia(message)}
               </div>
             </div>
           ))}
@@ -198,7 +265,7 @@ const Chat = () => {
           <div className="flex items-center w-full space-x-4 ">
             <input
               type="text"
-              className="flex-1 w-full border rounded-lg p-3 text-lg focus:outline-none focus:ring-2 focus:ring-blue-300 "
+              className="flex-1 w-full border rounded-lg p-3 text-lg focus:outline-none focus:ring-2 focus:ring-purple-600 "
               placeholder="Type your message..."
               value={input}
               onChange={(e) => setInput(e.target.value)}
@@ -206,7 +273,7 @@ const Chat = () => {
             />
             <button
               onClick={handleSendMessage}
-              className="bg-purple-400 text-white px-6 py-4 rounded-lg hover:bg-blue-600"
+              className="bg-purple-500 text-white px-12 py-4 rounded-lg hover:bg-purple-600"
             >
               Ask
             </button>
