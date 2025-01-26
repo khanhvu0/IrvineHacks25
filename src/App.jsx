@@ -57,17 +57,27 @@ const ChatGPTClone = () => {
   
   return (
     <div className="min-h-screen flex" style={{
-      backgroundImage: 'url("/lebron_solodunk.jpg")',
+      backgroundImage: 'url("/leBron_Lakers_Dunk.jpg")',
       backgroundSize: 'cover',
-      backgroundPosition: '10% 10%',
+      backgroundPosition: '100% 70%',
       backgroundAttachment: 'fixed',
     }}>
-        <div className="absolute inset-0 bg-white opacity-90 z-0"></div>
+        <div className="fixed inset-0 bg-white opacity-90 z-0" ></div>
       <div className="w-64 bg-gradient-to-b from-yellow-500 to-purple-700 text-white flex flex-col items-center p-4 fixed h-full top-0 left-0">
+
         <h1 className="text-2xl font-bold mb-6">Your LeTherapist</h1>
         <nav className="space-y-4">
           <a href="#" className="block text-lg hover:text-yellow-400">Chat History</a>
         </nav>
+        <div className="mt-auto">
+        <a href="https://www.lebronjames.com/" target="_blank">
+            <img
+                src="/lebron_logo.png" // Replace with LeBron's image URL
+                alt="LeBron James"
+                className="w-55 h-20 "
+            />
+        </a>
+        </div>
         
       </div>
 
@@ -118,11 +128,11 @@ const ChatGPTClone = () => {
                   <div className="dot-flashing"></div>
                  
                 </div>
-                {/* <img
+                <img
                   src="/docs/assets/loading_meme.jpg"
                   alt="Loading Meme"
                   className="w-40 mt-2 rounded-lg"
-                /> */}
+                /> 
               </div>
             </div>
           )}
