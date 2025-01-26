@@ -68,6 +68,7 @@ const ChatGPTClone = () => {
         <nav className="space-y-4">
           <a href="#" className="block text-lg hover:text-yellow-400">Chat History</a>
         </nav>
+        
       </div>
 
     {/* Main Chat Area */}
@@ -93,7 +94,7 @@ const ChatGPTClone = () => {
               className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}
             >
               <div
-                className={`${message.sender === 'user' ? 'bg-blue-500 text-white' : 'bg-gray-300 text-black'} px-4 py-2 rounded-lg max-w-2xl`}
+                className={`${message.sender === 'user' ? 'bg-violet-200 text-black' : 'bg-amber-50 text-black'} px-4 py-2 rounded-lg max-w-2xl`}
               >
                 {message.text}
                 {message.fileUrl && outputType === 'audio' && (
@@ -133,19 +134,19 @@ const ChatGPTClone = () => {
             <label className="block mb-2 text-gray-700 font-semibold">Choose Response Type:</label>
             <div className="flex space-x-4 mb-2">
               <button
-                className={`px-4 py-2 rounded-lg ${outputType === 'text' ? 'bg-blue-500 text-white' : 'bg-gray-300 text-gray-700'}`}
+                className={`px-4 py-2 rounded-lg ${outputType === 'text' ? 'bg-purple-500 text-white' : 'bg-amber-100 text-gray-700'}`}
                 onClick={() => setOutputType('text')}
               >
                 Text
               </button>
               <button
-                className={`px-4 py-2 rounded-lg ${outputType === 'audio' ? 'bg-blue-500 text-white' : 'bg-gray-300 text-gray-700'}`}
+                className={`px-4 py-2 rounded-lg ${outputType === 'audio' ? 'bg-purple-500 text-white' : 'bg-amber-100 text-gray-700'}`}
                 onClick={() => setOutputType('audio')}
               >
                 Audio
               </button>
               <button
-                className={`px-4 py-2 rounded-lg ${outputType === 'video' ? 'bg-blue-500 text-white' : 'bg-gray-300 text-gray-700'}`}
+                className={`px-4 py-2 rounded-lg ${outputType === 'video' ? 'bg-purple-500 text-white' : 'bg-amber-100 text-gray-700'}`}
                 onClick={() => setOutputType('video')}
               >
                 Video
@@ -157,7 +158,7 @@ const ChatGPTClone = () => {
           <div className="flex items-center space-x-4 pr-4">
             <input
               type="text"
-              className="flex-1 border rounded-lg p-3 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="flex-1 border rounded-lg p-3 text-lg focus:outline-none focus:ring-2 focus:ring-blue-300"
               placeholder="Type your message..."
               value={input}
               onChange={(e) => setInput(e.target.value)}
@@ -165,7 +166,7 @@ const ChatGPTClone = () => {
             />
             <button
               onClick={handleSendMessage}
-              className="bg-blue-500 text-white px-6 py-4 rounded-lg hover:bg-blue-600"
+              className="bg-purple-400 text-white px-6 py-4 rounded-lg hover:bg-blue-600"
             >
               Ask
             </button>
