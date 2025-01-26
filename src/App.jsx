@@ -54,20 +54,19 @@ const ChatGPTClone = () => {
       },
     ]);
   }, []);
-
+  
   return (
     <div className="min-h-screen flex" style={{
-      backgroundImage: 'url("/LeBron_Wade_alley_oop.jpg")',
+      backgroundImage: 'url("/lebron_solodunk.jpg")',
       backgroundSize: 'cover',
-      backgroundPosition: 'center',
+      backgroundPosition: '10% 10%',
       backgroundAttachment: 'fixed',
     }}>
-      <div className="w-64 bg-purple-600 text-white flex flex-col items-center p-4 fixed h-full top-0 left-0">
+        <div className="absolute inset-0 bg-white opacity-90 z-0"></div>
+      <div className="w-64 bg-gradient-to-b from-yellow-500 to-purple-700 text-white flex flex-col items-center p-4 fixed h-full top-0 left-0">
         <h1 className="text-2xl font-bold mb-6">Your LeTherapist</h1>
         <nav className="space-y-4">
-          <a href="#" className="block text-lg hover:text-yellow-400">Option 1</a>
-          <a href="#" className="block text-lg hover:text-yellow-400">Option 2</a>
-          <a href="#" className="block text-lg hover:text-yellow-400">Option 3</a>
+          <a href="#" className="block text-lg hover:text-yellow-400">Chat History</a>
         </nav>
       </div>
 
@@ -116,6 +115,7 @@ const ChatGPTClone = () => {
                   <div className="dot-flashing"></div>
                   <div className="dot-flashing"></div>
                   <div className="dot-flashing"></div>
+                 
                 </div>
                 {/* <img
                   src="/docs/assets/loading_meme.jpg"
@@ -130,7 +130,7 @@ const ChatGPTClone = () => {
 
         <div className="bg-white p-4 flex flex-col fixed bottom-0 w-full pr-64 z-10">
           <div className="bg-white ml-2 mb-4 z-20">
-            <label className="block mb-2 text-gray-700 font-semibold">Choose Output Type:</label>
+            <label className="block mb-2 text-gray-700 font-semibold">Choose Response Type:</label>
             <div className="flex space-x-4 mb-2">
               <button
                 className={`px-4 py-2 rounded-lg ${outputType === 'text' ? 'bg-blue-500 text-white' : 'bg-gray-300 text-gray-700'}`}
@@ -167,7 +167,7 @@ const ChatGPTClone = () => {
               onClick={handleSendMessage}
               className="bg-blue-500 text-white px-6 py-4 rounded-lg hover:bg-blue-600"
             >
-              Send
+              Ask
             </button>
           </div>
         </div>
