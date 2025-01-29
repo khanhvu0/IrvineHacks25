@@ -4,6 +4,12 @@ We love LeBron and the ideals he represents. We wanted to provide a tool to help
 ## What it does
 Provides custom therapy from the King himself. Allows the user to chat with LeBron via text, voice, or video messages using our own multi-modal AI pipeline.
 
+### Devpost link: https://devpost.com/software/letherapy
+### Demo link: https://www.youtube.com/watch?v=NyuTZI8FwYg&ab_channel=Brandons
+
+## Screenshots
+<img src="https://github.com/khanhvu0/IrvineHacks25/blob/main/letherapy.jpg" width="500"> <img src="https://github.com/khanhvu0/IrvineHacks25/blob/main/Screenshot_2025-01-26_at_12.56.59_AM.png" width="500"> <img src="https://github.com/khanhvu0/IrvineHacks25/blob/main/Screenshot_2025-01-26_at_12.57.41_AM.png" width="500"> <img src="https://github.com/khanhvu0/IrvineHacks25/blob/main/Screenshot_2025-01-26_at_1.00.24_AM.png" width="500">
+
 ## How we built it
 Frontend: The interface was built using React, Vite, JavaScript, and Tailwind CSS, allowing us to create a responsive, sleek, and intuitive user experience. Tailwind CSS streamlined our styling process, while Vite’s fast build system made development smoother and more efficient.
 
