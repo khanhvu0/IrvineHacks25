@@ -11,7 +11,7 @@ Provides custom therapy from the King himself. Allows the user to chat with LeBr
 <img src="https://github.com/khanhvu0/IrvineHacks25/blob/main/letherapy.jpg" width="500"> <img src="https://github.com/khanhvu0/IrvineHacks25/blob/main/Screenshot_2025-01-26_at_12.56.59_AM.png" width="500"> <img src="https://github.com/khanhvu0/IrvineHacks25/blob/main/Screenshot_2025-01-26_at_12.57.41_AM.png" width="500"> <img src="https://github.com/khanhvu0/IrvineHacks25/blob/main/Screenshot_2025-01-26_at_1.00.24_AM.png" width="500">
 
 ## How we built it
-Frontend: The interface was built using React, Vite, JavaScript, and Tailwind CSS, allowing us to create a responsive, sleek, and intuitive user experience. Tailwind CSS streamlined our styling process, while Vite’s fast build system made development smoother and more efficient.
+Frontend: The interface was built using React, Vite, JavaScript, and Tailwind CSS, allowing us to create a responsive, sleek, and intuitive user experience. Tailwind CSS streamlined our styling process, while Vite’s fast build system made development smoother and more efficient. We wanted our design to represent a modern world.
 
 Backend: The backend was powered by Python and Flask, providing a lightweight and flexible framework to handle server-side logic. We used POSTMAN extensively to test and debug API calls and implemented webhooks for real-time data flow between the frontend and backend.
 
